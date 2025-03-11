@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Obtención de Plan Alimenticio Adultos Sanos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://kit.fontawesome.com/YOUR_FONT_AWESOME_KIT.js" crossorigin="anonymous"></script>
+    <style>
+        body {
+            background-image: url('URL_DE_LA_IMAGEN_DE_FONDO');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white p-4">
+    <img src="URL_DEL_LOGOTIPO" alt="Logotipo" class="w-32 mb-4">
+    <h1 class="text-2xl font-bold mb-6">Obtención de Plan Alimenticio Adultos Sanos</h1>
+    
+    <div class="bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-md">
+        <label class="block">Sexo (F/M):</label>
+        <input id="sexo" type="text" class="w-full p-2 mb-4 text-black" maxlength="1">
+
+        <label class="block">Edad (años):</label>
+        <input id="edad" type="number" class="w-full p-2 mb-4 text-black" min="0" max="99">
+        
+        <label class="block">Talla (cm):</label>
+        <input id="talla" type="number" class="w-full p-2 mb-4 text-black" min="0">
+
+        <label class="block">Peso (kg):</label>
+        <input id="peso" type="number" class="w-full p-2 mb-4 text-black" min="0">
+        
+        <label class="block">Actividad Física (%):</label>
+        <input id="actividad" type="number" class="w-full p-2 mb-4 text-black" min="1">
+        
+        <button onclick="calcularGET()" class="w-full bg-green-500 p-2 rounded-lg">Calcular</button>
+        
+        <div id="resultado" class="mt-4 text-center"></div>
+    </div>
+    
+    <footer class="mt-6">
+        <a href="URL_DE_WALINK" target="_blank" class="bg-green-600 text-white px-4 py-2 rounded-lg flex items-center">
+            <i class="fab fa-whatsapp text-2xl mr-2"></i> Contáctame ahora
+        </a>
+    </footer>
+    
+    <script>
+        function calcularGET() {
+            let sexo = document.getElementById("sexo").value.toUpperCase();
+            let edad = parseInt(document.getElementById("edad").value);
+            let talla = parseFloat(document.getElementById("talla").value);
+            let peso = parseFloat(document.getElementById("peso").value);
+            let actividadFisica = parseFloat(document.getElementById("actividad").value) / 100;
+            
+            if (!['F', 'M'].includes(sexo) || isNaN(edad) || isNaN(talla) || isNaN(peso) || isNaN(actividadFisica) || actividadFisica <= 0) {
+                alert("Por favor, ingrese valores válidos.");
+                return;
+            }
+            
+            let GEB;
+            if (sexo === "F") {
+                GEB = 655 + (9.6 * peso) + (1.8 * talla) - (4.7 * edad);
+            } else {
+                GEB = 66 + (13.7 * peso) + (5 * talla) - (6.8 * edad);
+            }
+            
+            let ETA = GEB * 0.10;
+            let AF = GEB * actividadFisica;
+            let GET = GEB + ETA + AF;
+            
+            document.getElementById("resultado").innerHTML = `
+                <p>Gasto Energético Basal: <strong>${GEB.toFixed(2)} kcal</strong></p>
+                <p>Actividad Física en kcal: <strong>${AF.toFixed(2)} kcal</strong></p>
+                <p>Gasto Energético Total: <strong>${GET.toFixed(2)} kcal</strong></p>
+            `;
+        }
+    </script>
+</body>
+</html>
